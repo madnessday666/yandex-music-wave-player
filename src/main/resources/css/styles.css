@@ -1,0 +1,97 @@
+
+.btn-play {
+    -fx-background-color: transparent;
+    -fx-text-fill: green;
+    -fx-background-image: url("../icon/play.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 15;
+    -fx-cursor: hand;
+}
+
+.btn-pause {
+    -fx-background-color: transparent;
+    -fx-text-fill: green;
+    -fx-background-image: url("../icon/pause.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 15;
+    -fx-cursor: hand;
+}
+
+.btn-next {
+    -fx-background-color: transparent;
+    -fx-background-image: url("../icon/track-next.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 18;
+    -fx-cursor: hand;
+}
+
+.btn-volume-high {
+    -fx-background-color: transparent;
+    -fx-background-image: url("../icon/volume_high.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 18;
+    -fx-cursor: hand;
+}
+
+.btn-volume-medium {
+    -fx-background-color: transparent;
+    -fx-background-image: url("../icon/volume_medium.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 19;
+    -fx-cursor: hand;
+}
+
+.btn-volume-muted {
+    -fx-background-color: transparent;
+    -fx-background-image: url("../icon/volume_muted.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 19;
+    -fx-cursor: hand;
+}
+
+.btn-heart {
+    -fx-background-color: transparent;
+    -fx-background-image: url("../icon/heart.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 20;
+    -fx-cursor: hand;
+}
+
+.btn-heart-full {
+    -fx-background-color: transparent;
+    -fx-background-image: url("../icon/heart-full.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-size: 17;
+    -fx-cursor: hand;
+}
+
+.root {
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-alignment: center;
+}
+
+.progress-bar .bar {
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+}
+
+.progress-bar .track {
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+    -fx-text-box-border: transparent;
+    -fx-control-inner-background: transparent;
+    -fx-background-color: transparent;
+}
+
+
+
