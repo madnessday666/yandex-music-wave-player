@@ -9,7 +9,7 @@ import javafx.scene.layout.VBox;
 import ymwp.config.ClientConfiguration;
 import ymwp.httpclient.station.StationHttpClient;
 
-public class AuthenticationController {
+public class AuthenticationWindow {
 
     private final StationHttpClient stationHttpClient;
     private final ClientConfiguration clientConfiguration;
@@ -42,7 +42,7 @@ public class AuthenticationController {
         return mainContainer;
     }
 
-    public AuthenticationController() {
+    public AuthenticationWindow() {
         stationHttpClient = new StationHttpClient();
         clientConfiguration = new ClientConfiguration();
     }

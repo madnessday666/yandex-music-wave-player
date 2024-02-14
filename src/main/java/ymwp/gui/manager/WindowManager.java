@@ -11,15 +11,15 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import ymwp.config.ClientConfiguration;
-import ymwp.gui.authentication.AuthenticationController;
-import ymwp.gui.player.WavePlayerController;
+import ymwp.gui.authentication.AuthenticationWindow;
+import ymwp.gui.player.WavePlayerWindow;
 
 import java.util.Objects;
 
 public class WindowManager {
 
     public static void showAuthenticationWindow() {
-        VBox mainContainer = new AuthenticationController().getMainContainer();
+        VBox mainContainer = new AuthenticationWindow().getMainContainer();
         AnchorPane root = new AnchorPane(mainContainer);
         Stage stage = new Stage(StageStyle.TRANSPARENT);
         Scene scene = new Scene(root);
@@ -40,7 +40,7 @@ public class WindowManager {
     }
 
     public static void showPlayerWindow() {
-        HBox mainContainer = new WavePlayerController().getMainContainer();
+        HBox mainContainer = new WavePlayerWindow().getMainContainer();
         Pane root = new Pane(mainContainer);
         Scene scene = new Scene(root);
         scene.getStylesheets().add(Objects.requireNonNull(WindowManager.class.getResource("/css/styles.css")).toExternalForm());

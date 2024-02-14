@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
 
 import static ymwp.httpclient.UrlConstants.*;
 
-public class WavePlayerController {
+public class WavePlayerWindow {
 
     private final int CENTRAL_MODULES_WIDTH = 310;
     private final int CENTRAL_MODULES_MIN_WIDTH = 0;
@@ -86,7 +86,7 @@ public class WavePlayerController {
     private long userId;
     private double volume;
 
-    public WavePlayerController() {
+    public WavePlayerWindow() {
         this.allModules = new HBox();
         this.centralModulesGroup = new StackPane();
         this.contextMenu = new ContextMenu();
