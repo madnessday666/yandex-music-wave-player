@@ -174,7 +174,7 @@ public class TrackHttpClient {
 
     private static String generatePlayId() {
         return String.format(
-                "%s-%s-%s",
+                "%d-%d-%d",
                 new Random().nextInt(1000),
                 new Random().nextInt(1000),
                 new Random().nextInt(1000)
