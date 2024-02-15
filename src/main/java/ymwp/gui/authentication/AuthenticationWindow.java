@@ -11,9 +11,6 @@ import ymwp.httpclient.station.StationHttpClient;
 
 public class AuthenticationWindow {
 
-    private final StationHttpClient stationHttpClient;
-    private final ClientConfiguration clientConfiguration;
-
     public VBox getMainContainer() {
         Label enterApiTokenLabel = new Label("Enter Your API token");
         enterApiTokenLabel.setStyle("-fx-padding: 0 0 5 0");
@@ -21,14 +18,14 @@ public class AuthenticationWindow {
         Button send = new Button("Send");
         Button cancel = new Button("Cancel");
         send.setOnMouseClicked(mouseEvent -> {
-            clientConfiguration.updateToken(textField.getText());
-            clientConfiguration.loadConfigurationFromFile();
+            ClientConfiguration.updateToken(textField.getText());
+            ClientConfiguration.loadConfigurationFromFile();
             try {
-                stationHttpClient.getAccountId();
+                new StationHttpClient().getAccountId();
                 enterApiTokenLabel.setText("Token accepted!");
                 ((Node) mouseEvent.getSource()).getParent().getScene().getWindow().hide();
             } catch (RuntimeException e) {
-                clientConfiguration.updateToken(null);
+                ClientConfiguration.updateToken(null);
                 enterApiTokenLabel.setText("Incorrect token!");
             }
         });
@@ -40,11 +37,6 @@ public class AuthenticationWindow {
         VBox mainContainer = new VBox(enterApiTokenLabel, textField, buttons);
         mainContainer.setStyle("-fx-alignment: center; -fx-padding: 10 10 10 10;");
         return mainContainer;
-    }
-
-    public AuthenticationWindow() {
-        stationHttpClient = new StationHttpClient();
-        clientConfiguration = new ClientConfiguration();
     }
 
 }

@@ -15,7 +15,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.concurrent.CompletableFuture;
 
-import static ymwp.httpclient.UrlConstants.*;
+import static ymwp.util.UrlConstants.*;
 
 public class StationHttpClient {
 
@@ -89,7 +89,7 @@ public class StationHttpClient {
                     .getAsJsonObject("account")
                     .get("uid")
                     .getAsLong();
-            new ClientConfiguration().updateUserId(userId);
+            ClientConfiguration.updateUserId(userId);
         } catch (URISyntaxException | IOException | InterruptedException e) {
             throw new RuntimeException("An error occurred while executing the request");
         }

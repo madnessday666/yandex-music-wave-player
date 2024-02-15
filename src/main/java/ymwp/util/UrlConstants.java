@@ -1,6 +1,9 @@
-package ymwp.httpclient;
+package ymwp.util;
 
 public class UrlConstants {
+
+    private UrlConstants() {
+    }
 
     public static final String BASE_URL = "https://api.music.yandex.net:443";
 

@@ -9,11 +9,12 @@ import lombok.*;
 @ToString
 public class ConfigFile {
 
-    private ConfigUser user;
-    private ConfigPosition position;
     private ConfigBackground background;
-    private ConfigTrackTitle trackTitle;
     private ConfigBar bar;
+    private ConfigDuration duration;
+    private ConfigPosition position;
+    private ConfigTitle title;
+    private ConfigUser user;
     private Double volume;
 
 }

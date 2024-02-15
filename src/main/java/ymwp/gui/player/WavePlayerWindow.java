@@ -38,7 +38,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
 
-import static ymwp.httpclient.UrlConstants.*;
+import static ymwp.util.UrlConstants.*;
 
 public class WavePlayerWindow {
 
@@ -127,32 +127,33 @@ public class WavePlayerWindow {
         }
     }
 
-    private Track checkIfTrackRecentlyPlayed() {
-        track = Objects.requireNonNull(stationOnYourWaveTrackSequence.poll()).getTrack();
-        String unsureTrackId = track.getId();
-        LocalDateTime lastPlayed = playedTracks.get(unsureTrackId);
-        if (playedTracks.containsKey(unsureTrackId)) {
-            if (LocalDateTime.now().isAfter(lastPlayed.plusMinutes(45))) {
-                playedTracks.remove(unsureTrackId);
-            } else {
-                while (playedTracks.containsKey(unsureTrackId) && stationOnYourWaveTrackSequence.size() > 1) {
-                    track = stationOnYourWaveTrackSequence.poll().getTrack();
-                }
-            }
-        }
-        if (stationOnYourWaveTrackSequence.size() <= 3) {
-            CompletableFuture.runAsync(this::fetchStationTrackSequence);
-        }
-        trackId = track.getId();
-        trackTitle = track.getTitle();
-        trackArtists = track.getArtists().stream().map(Artist::getName).collect(Collectors.joining(", "));
-        trackTotalLength = (int) track.getDurationMs() / 1000;
-        playedTracks.put(trackId, LocalDateTime.now());
-        return track;
-    }
+//--------------------------------------TEMPORARILY REMOVED-------------------------------------------------------------
+//    private Track checkIfTrackRecentlyPlayed() {
+//        track = Objects.requireNonNull(stationOnYourWaveTrackSequence.poll()).getTrack();
+//        String unsureTrackId = track.getId();
+//        LocalDateTime lastPlayed = playedTracks.get(unsureTrackId);
+//        if (playedTracks.containsKey(unsureTrackId)) {
+//            if (LocalDateTime.now().isAfter(lastPlayed.plusMinutes(45))) {
+//                playedTracks.remove(unsureTrackId);
+//            } else {
+//                while (playedTracks.containsKey(unsureTrackId) && stationOnYourWaveTrackSequence.size() > 1) {
+//                    track = stationOnYourWaveTrackSequence.poll().getTrack();
+//                }
+//            }
+//        }
+//        if (stationOnYourWaveTrackSequence.size() <= 3) {
+//            CompletableFuture.runAsync(this::fetchStationTrackSequence);
+//        }
+//        trackId = track.getId();
+//        trackTitle = track.getTitle();
+//        trackArtists = track.getArtists().stream().map(Artist::getName).collect(Collectors.joining(", "));
+//        trackTotalLength = (int) track.getDurationMs() / 1000;
+//        playedTracks.put(trackId, LocalDateTime.now());
+//        return track;
+//    }
 
     private void init() {
-        stationHttpClient.sendFeedback(null, STATION_ON_YOUR_WAVE, new StationFeedback(StationFeedbackType.radioStarted));
+        this.sendFeedbackRadioStart();
         this.fetchUserLikedTracks();
         this.fetchStationTrackSequence();
     }
@@ -185,7 +186,8 @@ public class WavePlayerWindow {
                 -fx-max-height: %d;
                 -fx-min-height: %d;
                 -fx-pref-height: %d;
-                -fx-text-fill: #000;
+                -fx-text-fill: %s;
+                -fx-opacity: %f;
                 -fx-font-size: 11;
                 -fx-alignment: center-left;
                             """
@@ -195,7 +197,9 @@ public class WavePlayerWindow {
                         CENTRAL_MODULES_WIDTH,
                         MODULES_HEIGHT,
                         MODULES_HEIGHT,
-                        MODULES_HEIGHT
+                        MODULES_HEIGHT,
+                        ClientConfiguration.config.getDuration().getColor(),
+                        ClientConfiguration.config.getDuration().getOpacity()
                 ));
         return currentDurationLabel;
     }
@@ -339,16 +343,7 @@ public class WavePlayerWindow {
         nextButton.setOnMouseClicked(mouseEvent -> {
             if (!mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
                 if (mediaPlayer != null) {
-                    int totalSecondsPlayed = (int) mediaPlayer.getCurrentTime().toSeconds();
-                    FeedbackFacade.sendStationFeedbackAndTrackStatus(
-                            batchId,
-                            STATION_ON_YOUR_WAVE,
-                            StationFeedbackType.skip,
-                            track,
-                            totalSecondsPlayed,
-                            trackTotalLength,
-                            totalSecondsPlayed
-                    );
+                    this.sendFeedbackTrackSkip();
                 }
                 this.play();
             }
@@ -457,7 +452,9 @@ public class WavePlayerWindow {
                 -fx-max-height: %d;
                 -fx-min-height: %d;
                 -fx-pref-height: %d;
-                -fx-text-fill: #000;
+                -fx-text-fill: %s;
+                -fx-opacity: %f;
+                -fx-font-size: 11;
                 -fx-alignment: center-right;
                             """
                 .formatted(
@@ -466,7 +463,9 @@ public class WavePlayerWindow {
                         CENTRAL_MODULES_WIDTH,
                         MODULES_HEIGHT,
                         MODULES_HEIGHT,
-                        MODULES_HEIGHT
+                        MODULES_HEIGHT,
+                        ClientConfiguration.config.getDuration().getColor(),
+                        ClientConfiguration.config.getDuration().getOpacity()
                 ));
         totalDurationLabel.setOnMouseClicked(mouseEvent -> {
             if (!mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
@@ -490,7 +489,8 @@ public class WavePlayerWindow {
                 -fx-max-height: %d;
                 -fx-min-height: %d;
                 -fx-pref-height: %d;
-                -fx-text-fill: #f4f4f4;
+                -fx-text-fill: %s;
+                -fx-opacity: %f;
                 -fx-alignment: center;
                             """
                 .formatted(
@@ -499,7 +499,9 @@ public class WavePlayerWindow {
                         CENTRAL_MODULES_WIDTH,
                         MODULES_HEIGHT,
                         MODULES_HEIGHT,
-                        MODULES_HEIGHT
+                        MODULES_HEIGHT,
+                        ClientConfiguration.config.getTitle().getColor(),
+                        ClientConfiguration.config.getTitle().getOpacity()
                 ));
         trackTitleLabel.setOnMouseEntered(mouseEntered -> {
             trackTitleLabel.setVisible(false);
@@ -519,7 +521,13 @@ public class WavePlayerWindow {
     }
 
     private Button getVolumeButton() {
-        volumeButton.getStyleClass().add(StyleHelper.VOLUME_HIGH);
+        if (volume > 0.5) {
+            volumeButton.getStyleClass().add(StyleHelper.VOLUME_HIGH);
+        } else if (volume <= 0.5 && volume > 0.0) {
+            volumeButton.getStyleClass().add(StyleHelper.VOLUME_MEDIUM);
+        } else if (volume == 0.0) {
+            volumeButton.getStyleClass().add(StyleHelper.VOLUME_MUTED);
+        }
         volumeButton.setOnScroll(mouseEvent -> {
             if (mediaPlayer != null) {
                 double deltaY = mouseEvent.getDeltaY();
@@ -570,8 +578,22 @@ public class WavePlayerWindow {
         if (mediaPlayer != null) {
             mediaPlayer.stop();
         }
+        this.setupTrack();
         this.setupMedia();
         this.setupPlayerSettings();
+        this.sendFeedbackTrackStart();
+        mediaPlayer.play();
+    }
+
+    private void sendFeedbackRadioStart() {
+        stationHttpClient.sendFeedback(
+                null,
+                STATION_ON_YOUR_WAVE,
+                new StationFeedback(StationFeedbackType.radioStarted)
+        );
+    }
+
+    private void sendFeedbackTrackStart() {
         FeedbackFacade.sendStationFeedbackAndTrackStatus(
                 batchId,
                 STATION_ON_YOUR_WAVE,
@@ -581,17 +603,31 @@ public class WavePlayerWindow {
                 trackTotalLength,
                 0
         );
-        CompletableFuture.runAsync(FileLoader::cleanUp);
-        mediaPlayer.play();
     }
 
-    private void setupMedia() {
-        track = checkIfTrackRecentlyPlayed();
-        TrackDownloadInfo trackDownloadInfo = trackHttpClient.getTrackDownloadInfo(trackId);
-        trackDownloadLink = trackHttpClient.getTrackDownloadLink(trackDownloadInfo);
-        File file = FileLoader.loadFileFromUrl(trackDownloadLink, trackId);
-        media = new Media(file.toURI().toString());
-        mediaPlayer = new MediaPlayer(media);
+    private void sendFeedbackTrackSkip() {
+        int totalSecondsPlayed = (int) mediaPlayer.getCurrentTime().toSeconds();
+        FeedbackFacade.sendStationFeedbackAndTrackStatus(
+                batchId,
+                STATION_ON_YOUR_WAVE,
+                StationFeedbackType.skip,
+                track,
+                totalSecondsPlayed,
+                trackTotalLength,
+                totalSecondsPlayed
+        );
+    }
+
+    private void sendFeedbackTrackEnd() {
+        FeedbackFacade.sendStationFeedbackAndTrackStatus(
+                batchId,
+                STATION_ON_YOUR_WAVE,
+                StationFeedbackType.trackFinished,
+                track,
+                trackTotalLength,
+                trackTotalLength,
+                trackTotalLength
+        );
     }
 
     private void setContextMenu() {
@@ -623,7 +659,7 @@ public class WavePlayerWindow {
                     if (mediaPlayer != null) {
                         mediaPlayer.stop();
                     }
-                    new ClientConfiguration().resetUserData();
+                    ClientConfiguration.resetUserData();
                     trackTitleLabel.getParent().getScene().getWindow().hide();
                     WindowManager.showAuthenticationWindow();
                     break;
@@ -632,6 +668,15 @@ public class WavePlayerWindow {
                     break;
             }
         });
+    }
+
+    private void setupMedia() {
+        TrackDownloadInfo trackDownloadInfo = trackHttpClient.getTrackDownloadInfo(trackId);
+        trackDownloadLink = trackHttpClient.getTrackDownloadLink(trackDownloadInfo);
+        File file = FileLoader.loadFileFromUrl(trackDownloadLink, trackId);
+        media = new Media(file.toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
+        CompletableFuture.runAsync(FileLoader::cleanUp);
     }
 
     private void setupPlayerSettings() {
@@ -662,17 +707,20 @@ public class WavePlayerWindow {
             currentDurationLabel.setText(DurationAdjuster.adjust(newValue));
         }));
         mediaPlayer.setOnEndOfMedia(() -> {
-            FeedbackFacade.sendStationFeedbackAndTrackStatus(
-                    batchId,
-                    STATION_ON_YOUR_WAVE,
-                    StationFeedbackType.trackFinished,
-                    track,
-                    trackTotalLength,
-                    trackTotalLength,
-                    trackTotalLength
-            );
+            this.sendFeedbackTrackEnd();
             this.play();
         });
+    }
+
+    private void setupTrack() {
+        track = Objects.requireNonNull(stationOnYourWaveTrackSequence.poll()).getTrack();
+        trackId = track.getId();
+        trackTitle = track.getTitle();
+        trackArtists = track.getArtists().stream().map(Artist::getName).collect(Collectors.joining(", "));
+        trackTotalLength = (int) track.getDurationMs() / 1000;
+        if (stationOnYourWaveTrackSequence.size() <= 3) {
+            CompletableFuture.runAsync(this::fetchStationTrackSequence);
+        }
     }
 
 }

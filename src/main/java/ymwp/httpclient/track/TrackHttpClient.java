@@ -25,7 +25,7 @@ import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-import static ymwp.httpclient.UrlConstants.*;
+import static ymwp.util.UrlConstants.*;
 
 public class TrackHttpClient {
 

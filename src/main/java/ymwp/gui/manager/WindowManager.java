@@ -43,7 +43,8 @@ public class WindowManager {
         HBox mainContainer = new WavePlayerWindow().getMainContainer();
         Pane root = new Pane(mainContainer);
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(Objects.requireNonNull(WindowManager.class.getResource("/css/styles.css")).toExternalForm());
+        String url = Objects.requireNonNull(WindowManager.class.getResource("/css/styles.css")).toExternalForm();
+        scene.getStylesheets().add(url);
         scene.setFill(Color.TRANSPARENT);
         Stage stage = new Stage(StageStyle.TRANSPARENT);
         stage.setX(ClientConfiguration.config.getPosition().getX());

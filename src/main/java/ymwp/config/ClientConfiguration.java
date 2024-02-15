@@ -2,9 +2,7 @@ package ymwp.config;
 
 import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -17,37 +15,39 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 @Getter
-@Setter
-@AllArgsConstructor
 public class ClientConfiguration {
 
-    private Yaml yaml;
-    private String configDir;
-    private String configFile;
-    private String pathToConfig;
+    private final static Yaml yaml;
+    private final static String configDir;
+    private final static String configFile;
+    private final static String pathToConfig;
     public static ConfigFile config;
 
-    public ClientConfiguration() {
-        this.yaml = getPrettyYaml();
-        this.configDir = System.getProperty("user.home") + "/.config/ymwp/";
-        this.configFile = "config.yaml";
-        this.pathToConfig = configDir + configFile;
+    static {
+        yaml = getPrettyYaml();
+        configDir = System.getProperty("user.home") + "/.config/ymwp/";
+        configFile = "config.yaml";
+        pathToConfig = configDir + configFile;
     }
 
-    private void createDefaultConfig() {
-        File configDir = new File(this.configDir);
+    private ClientConfiguration() {
+    }
+
+    private static void createDefaultConfig() {
+        File configDir = new File(pathToConfig);
         if (configDir.exists() || configDir.mkdir()) {
             try (PrintWriter writer = new PrintWriter(pathToConfig)) {
                 Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
                 int centerX = (int) (bounds.getWidth() / 2 * 0.8);
                 int centerY = (int) (bounds.getHeight() / 3);
                 config = new ConfigFile(
-                        new ConfigUser(null, 0L),
-                        new ConfigPosition(centerX, centerY),
                         new ConfigBackground("#181818", 1.0, 20),
-                        new ConfigTrackTitle("#f4f4f4", 1.0),
                         new ConfigBar("#6d6d6d", "#ffdb4d", 1.0),
-                        0.6
+                        new ConfigDuration("#000", 1.0),
+                        new ConfigPosition(centerX, centerY),
+                        new ConfigTitle("#f4f4f4", 1.0),
+                        new ConfigUser(null, 0L),
+                        0.6 //volume
                 );
                 yaml.dump(config, writer);
             } catch (IOException e) {
@@ -58,7 +58,7 @@ public class ClientConfiguration {
         }
     }
 
-    private Yaml getPrettyYaml() {
+    private static Yaml getPrettyYaml() {
         DumperOptions dumperOptions = new DumperOptions();
         dumperOptions.setIndent(2);
         dumperOptions.setPrettyFlow(true);
@@ -68,7 +68,7 @@ public class ClientConfiguration {
         return new Yaml(new Constructor(loaderoptions), new Representer(dumperOptions));
     }
 
-    public void loadConfigurationFromFile() {
+    public static void loadConfigurationFromFile() {
         if (Files.exists(Paths.get(pathToConfig))) {
             try (InputStream inputStream = new FileInputStream(pathToConfig)) {
                 config = yaml.loadAs(inputStream, ConfigFile.class);
@@ -80,12 +80,12 @@ public class ClientConfiguration {
         }
     }
 
-    public void resetUserData() {
-        this.updateToken(null);
-        this.updateUserId(0L);
+    public static void resetUserData() {
+        updateToken(null);
+        updateUserId(0L);
     }
 
-    public void updateToken(String token) {
+    public static void updateToken(String token) {
         config.getUser().setToken(token);
         try (PrintWriter writer = new PrintWriter(pathToConfig)) {
             yaml.dump(config, writer);
@@ -94,7 +94,7 @@ public class ClientConfiguration {
         }
     }
 
-    public void updateUserId(long userId) {
+    public static void updateUserId(long userId) {
         config.getUser().setId(userId);
         try (PrintWriter writer = new PrintWriter(pathToConfig)) {
             yaml.dump(config, writer);

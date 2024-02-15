@@ -8,15 +8,13 @@ import ymwp.httpclient.station.StationHttpClient;
 
 public class YandexMusicWavePlayer extends Application {
 
-
     @Override
     public void start(Stage stage) {
-        checkConfiguration();
+        this.checkConfiguration();
     }
 
     private void checkConfiguration() {
-        ClientConfiguration clientConfiguration = new ClientConfiguration();
-        clientConfiguration.loadConfigurationFromFile();
+        ClientConfiguration.loadConfigurationFromFile();
         if (ClientConfiguration.config.getUser().getToken() != null) {
             try {
                 new StationHttpClient().getAccountId();
@@ -27,10 +25,6 @@ public class YandexMusicWavePlayer extends Application {
         } else {
             WindowManager.showAuthenticationWindow();
         }
-    }
-
-    public static void main(String[] args) {
-        launch();
     }
 
 }

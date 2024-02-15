@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ConfigTrackTitle {
+public class ConfigDuration {
 
     private String color;
     private Double opacity;
