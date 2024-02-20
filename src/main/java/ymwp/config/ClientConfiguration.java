@@ -34,8 +34,9 @@ public class ClientConfiguration {
     }
 
     private static void createDefaultConfig() {
-        File configDir = new File(pathToConfig);
-        if (configDir.exists() || configDir.mkdir()) {
+        File cfgDir = new File(configDir);
+        File cfgFile = new File(pathToConfig);
+        if (cfgFile.exists() || cfgDir.mkdir()) {
             try (PrintWriter writer = new PrintWriter(pathToConfig)) {
                 Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
                 int centerX = (int) (bounds.getWidth() / 2 * 0.8);
