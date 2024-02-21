@@ -120,7 +120,7 @@ duration:
   opacity: 1.0
 font:
   family: System
-  size: 8
+  size: 14
 position:
   x: 768
   y: 360
