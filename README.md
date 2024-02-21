@@ -35,6 +35,7 @@ JavaFX приложение для прослушивания треков из 
 
 * [JDK 17+](https://www.oracle.com/cis/java/technologies/downloads/#java17)
 * [Gradle 8.5+](https://gradle.org/install/)
+* [ffmpeg](https://github.com/FFmpeg/FFmpeg?tab=readme-ov-file#libraries)
 
 ---
 
