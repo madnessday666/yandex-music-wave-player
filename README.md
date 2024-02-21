@@ -25,7 +25,7 @@
 ## Вступление
 
 JavaFX приложение для прослушивания треков из "Моей Волны" Яндекс Музыки.
-Работает на базе [Yandex Music API](https://yandex-music.readthedocs.io/en/main/#id3).
+Работает на базе [Yandex Music API](https://yandex-music.readthedocs.io/en/main/).
 
 ![preview](assets/images/preview.png)
 
@@ -71,7 +71,7 @@ cd yandex-music-wave-player
 ./gradlew jlink
 ```
 
-После завершения файлы проекта будут находится в build/image.
+После завершения файлы приложения будут находится в build/image.
 Переместите их в более удобное место, например:
 
 ```
@@ -117,6 +117,9 @@ bar:
 duration:
   color: '#000'
   opacity: 1.0
+font:
+  family: System
+  size: 8
 position:
   x: 768
   y: 360
