@@ -374,7 +374,6 @@ public class WavePlayerWindow {
         progressBar.setProgress(0);
         progressBar.setStyle("""
                 -fx-border-radius: 0;
-                -fx-accent : %s;
                 -fx-min-width: %d;
                 -fx-max-width:  %d;
                 -fx-pref-width: %d;
@@ -383,17 +382,18 @@ public class WavePlayerWindow {
                 -fx-pref-height: %d;
                 -fx-background-insets: 0;
                 -fx-background-radius: 0;
+                -fx-accent : %s;
                 -fx-background-color: %s;
                 -fx-opacity: %f;
                             """
                 .formatted(
-                        ClientConfiguration.config.getBar().getColor(),
                         CENTRAL_MODULES_MIN_WIDTH,
                         CENTRAL_MODULES_WIDTH,
                         CENTRAL_MODULES_WIDTH,
                         PROGRESS_BAR_HEIGHT,
                         PROGRESS_BAR_HEIGHT,
                         PROGRESS_BAR_HEIGHT,
+                        ClientConfiguration.config.getBar().getColor(),
                         ClientConfiguration.config.getBar().getBgColor(),
                         ClientConfiguration.config.getBar().getOpacity()
                 ));
@@ -482,7 +482,6 @@ public class WavePlayerWindow {
     private Label getTrackTitleLabel() {
         trackTitleLabel.setText("On Your Wave");
         trackTitleLabel.setStyle("""
-                -fx-font-size: 14;
                 -fx-min-width: %d;
                 -fx-max-width:  %d;
                 -fx-pref-width: %d;
@@ -491,6 +490,8 @@ public class WavePlayerWindow {
                 -fx-pref-height: %d;
                 -fx-text-fill: %s;
                 -fx-opacity: %f;
+                -fx-font-family: %s;
+                -fx-font-size: %d;
                 -fx-alignment: center;
                             """
                 .formatted(
@@ -501,7 +502,9 @@ public class WavePlayerWindow {
                         MODULES_HEIGHT,
                         MODULES_HEIGHT,
                         ClientConfiguration.config.getTitle().getColor(),
-                        ClientConfiguration.config.getTitle().getOpacity()
+                        ClientConfiguration.config.getTitle().getOpacity(),
+                        ClientConfiguration.config.getFont().getFamily(),
+                        ClientConfiguration.config.getFont().getSize()
                 ));
         trackTitleLabel.setOnMouseEntered(mouseEntered -> {
             trackTitleLabel.setVisible(false);
@@ -512,7 +515,12 @@ public class WavePlayerWindow {
                 totalDurationLabel.setVisible(false);
                 currentDurationLabel.setVisible(false);
                 progressBar.setVisible(false);
-                FadeTransitionFiller.fillWithFade(0, 1, Duration.millis(500), trackTitleLabel);
+                FadeTransitionFiller.fillWithFade(
+                        0,
+                        ClientConfiguration.config.getTitle().getOpacity(),
+                        Duration.millis(500),
+                        trackTitleLabel
+                );
                 trackTitleLabel.setVisible(true);
             });
         });

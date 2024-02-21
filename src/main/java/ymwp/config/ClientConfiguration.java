@@ -33,32 +33,45 @@ public class ClientConfiguration {
     private ClientConfiguration() {
     }
 
-    private static void createDefaultConfig() {
+    private static void checkIfDirAndFileExists() throws IOException{
         File cfgDir = new File(configDir);
         File cfgFile = new File(pathToConfig);
-        if (cfgFile.exists() || cfgDir.mkdir()) {
-            try (PrintWriter writer = new PrintWriter(pathToConfig)) {
-                Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
-                int centerX = (int) (bounds.getWidth() / 2 * 0.8);
-                int centerY = (int) (bounds.getHeight() / 3);
-                config = new ConfigFile(
-                        new ConfigBackground("#181818", 1.0, 20),
-                        new ConfigBar("#6d6d6d", "#ffdb4d", 1.0),
-                        new ConfigDuration("#000", 1.0),
-                        new ConfigPosition(centerX, centerY),
-                        new ConfigTitle("#f4f4f4", 1.0),
-                        new ConfigUser(null, 0L),
-                        0.6 //volume
-                );
-                yaml.dump(config, writer);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+        if (!cfgDir.exists()) {
+            if (!cfgDir.mkdirs()) {
+                throw new RuntimeException("Couldn't create dir!");
             }
-        } else {
-            throw new RuntimeException("Couldn't create dir!");
+        }
+        if (!cfgFile.exists()) {
+            if (!cfgFile.createNewFile()) {
+                throw new RuntimeException("Couldn't create file!");
+            }
         }
     }
 
+    private static void createDefaultConfig() {
+        try {
+            checkIfDirAndFileExists();
+            PrintWriter writer = new PrintWriter(pathToConfig);
+            Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
+            int centerX = (int) (bounds.getWidth() / 2 * 0.8);
+            int centerY = (int) (bounds.getHeight() / 3);
+            config = new ConfigFile(
+                    new ConfigBackground("#181818", 1.0, 20),
+                    new ConfigBar("#6d6d6d", "#ffdb4d", 1.0),
+                    new ConfigDuration("#000", 1.0),
+                    new ConfigFont("System", 14),
+                    new ConfigPosition(centerX, centerY),
+                    new ConfigTitle("#f4f4f4", 1.0),
+                    new ConfigUser(null, 0L),
+                    0.6 //volume
+            );
+            yaml.dump(config, writer);
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
     private static Yaml getPrettyYaml() {
         DumperOptions dumperOptions = new DumperOptions();
         dumperOptions.setIndent(2);
