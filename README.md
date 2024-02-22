@@ -25,7 +25,10 @@
 JavaFX приложение для прослушивания треков из "Моей Волны" Яндекс Музыки.
 Работает на базе [Yandex Music API](https://yandex-music.readthedocs.io/en/main/).
 
-![preview](assets/images/preview.png)
+![preview1](assets/images/preview1.png)
+![preview2](assets/images/preview2.png)
+![preview3](assets/images/preview3.png)
+![preview4](assets/images/preview4.png)
 
 ---
 
