@@ -68,7 +68,7 @@ git clone https://github.com/madnessday666/yandex-music-wave-player.git
 cd yandex-music-wave-player
 ```
 
-Собрать образ с помощью плагина JlinkL:
+Собрать образ с помощью gradle и плагина Jlink:
 
 ```
 ./gradlew jlink
