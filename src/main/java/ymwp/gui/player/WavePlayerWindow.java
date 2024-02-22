@@ -73,7 +73,6 @@ public class WavePlayerWindow {
     private Set<String> likedTracks;
     private Media media;
     private MediaPlayer mediaPlayer;
-    private final Map<String, LocalDateTime> playedTracks;
     private final Queue<SequenceItem> stationOnYourWaveTrackSequence;
     private final StationHttpClient stationHttpClient;
     private final TrackHttpClient trackHttpClient;
@@ -108,7 +107,6 @@ public class WavePlayerWindow {
         this.isMuted = false;
         this.isPaused = true;
         this.likedTracks = new HashSet<>();
-        this.playedTracks = new HashMap<>();
         this.stationHttpClient = new StationHttpClient();
         this.stationOnYourWaveTrackSequence = new ConcurrentLinkedQueue<>();
         this.trackHttpClient = new TrackHttpClient();
@@ -126,31 +124,6 @@ public class WavePlayerWindow {
             StyleHelper.changeNodeStyle(likeButton, StyleHelper.HEART);
         }
     }
-
-//--------------------------------------TEMPORARILY REMOVED-------------------------------------------------------------
-//    private Track checkIfTrackRecentlyPlayed() {
-//        track = Objects.requireNonNull(stationOnYourWaveTrackSequence.poll()).getTrack();
-//        String unsureTrackId = track.getId();
-//        LocalDateTime lastPlayed = playedTracks.get(unsureTrackId);
-//        if (playedTracks.containsKey(unsureTrackId)) {
-//            if (LocalDateTime.now().isAfter(lastPlayed.plusMinutes(45))) {
-//                playedTracks.remove(unsureTrackId);
-//            } else {
-//                while (playedTracks.containsKey(unsureTrackId) && stationOnYourWaveTrackSequence.size() > 1) {
-//                    track = stationOnYourWaveTrackSequence.poll().getTrack();
-//                }
-//            }
-//        }
-//        if (stationOnYourWaveTrackSequence.size() <= 3) {
-//            CompletableFuture.runAsync(this::fetchStationTrackSequence);
-//        }
-//        trackId = track.getId();
-//        trackTitle = track.getTitle();
-//        trackArtists = track.getArtists().stream().map(Artist::getName).collect(Collectors.joining(", "));
-//        trackTotalLength = (int) track.getDurationMs() / 1000;
-//        playedTracks.put(trackId, LocalDateTime.now());
-//        return track;
-//    }
 
     private void init() {
         this.sendFeedbackRadioStart();
