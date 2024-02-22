@@ -10,6 +10,8 @@ import lombok.*;
 public class ConfigTitle {
 
     private String color;
+    private String fontFamily;
+    private Integer fontSize;
     private Double opacity;
 
 }

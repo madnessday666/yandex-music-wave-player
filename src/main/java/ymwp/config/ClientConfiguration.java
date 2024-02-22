@@ -33,7 +33,7 @@ public class ClientConfiguration {
     private ClientConfiguration() {
     }
 
-    private static void checkIfDirAndFileExists() throws IOException{
+    private static void checkIfDirAndFileExists() throws IOException {
         File cfgDir = new File(configDir);
         File cfgFile = new File(pathToConfig);
         if (!cfgDir.exists()) {
@@ -58,10 +58,9 @@ public class ClientConfiguration {
             config = new ConfigFile(
                     new ConfigBackground("#181818", 1.0, 20),
                     new ConfigBar("#6d6d6d", "#ffdb4d", 1.0),
-                    new ConfigDuration("#000", 1.0),
-                    new ConfigFont("System", 14),
+                    new ConfigDuration("#000", "System", 11, 1.0, 5, 5),
                     new ConfigPosition(centerX, centerY),
-                    new ConfigTitle("#f4f4f4", 1.0),
+                    new ConfigTitle("#f4f4f4", "System", 14, 1.0),
                     new ConfigUser(null, 0L),
                     0.6 //volume
             );
@@ -71,7 +70,7 @@ public class ClientConfiguration {
             throw new RuntimeException(e);
         }
     }
-    
+
     private static Yaml getPrettyYaml() {
         DumperOptions dumperOptions = new DumperOptions();
         dumperOptions.setIndent(2);

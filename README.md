@@ -1,4 +1,3 @@
-
 # Yandex Music Wave Player
 
 1. [Вступление](#вступление)
@@ -10,7 +9,6 @@
     - [Background](#background)
     - [Bar](#bar)
     - [Duration](#duration)
-    - [Font](#font)
     - [Position](#position)
     - [Title](#title)
     - [User](#user)
@@ -54,6 +52,7 @@ JavaFX приложение для прослушивания треков из 
 ---
 
 ## Установка и запуск
+
 Склонировать репозиторий:
 
 ```
@@ -117,15 +116,18 @@ bar:
   opacity: 1.0
 duration:
   color: '#000'
+  fontFamily: System
+  fontSize: 11
   opacity: 1.0
-font:
-  family: System
-  size: 14
+  paddingLeft: 5
+  paddingRight: 5
 position:
   x: 768
   y: 360
 title:
   color: '#f4f4f4'
+  fontFamily: System
+  fontSize: 14
   opacity: 1.0
 user:
   id: $YOUR_USER_ID
@@ -135,7 +137,7 @@ volume: 0.6
 
 ### Background
 
-Параметры плеера.
+Параметры фона плеера.
 
 <table>
 <thead>
@@ -317,6 +319,48 @@ duration:
     </td>
   </tr>
   <tr>
+    <td align="center"><code>fontFamily</code></td>
+    <td align="center"><code>String</code></td>
+    <td align="center"><code>-</code></td>
+    <td>
+      <pre>
+...
+duration:
+  fontFamily: scientifica
+...</pre>
+      <img src="assets/images/duration-font-family.png" alt="duration-font-family"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><code>fontSize</code></td>
+    <td align="center"><code>Integer</code></td>
+    <td align="center"><code>0...999</code></td>
+    <td>
+      <pre>
+...
+duration:
+  fontSize: 8
+...</pre>
+      <img src="assets/images/duration-font-size.png" alt="duration-font-size"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><pre>
+paddingLeft 
+paddingRight</pre></td>
+    <td align="center"><code>Integer</code></td>
+    <td align="center"><code>0...999</code></td>
+    <td>
+      <pre>
+...
+duration:
+  paddingLeft: 5
+  paddingRight: 20
+...</pre>
+      <img src="assets/images/duration-padding.png" alt="duration-padding"/>
+    </td>
+  </tr>
+  <tr>
     <td align="center"><code>opacity</code></td>
     <td align="center"><code>Double</code></td>
     <td align="center"><code>0.0...1.0</code></td>
@@ -328,49 +372,6 @@ duration:
   opacity: 0.3
 ...</pre>
       <img src="assets/images/duration-opacity.png" alt="duration-opacity"/>
-    </td>
-  </tr>
-</tbody>
-</table>
-
-### Font
-
-Параметры шрифта.
-
-<table>
-<thead>
-  <tr>
-    <th align="center">Параметр</th>
-    <th align="center">Тип</th>
-    <th align="center">Диапазон</th>
-    <th align="center">Пример</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td align="center"><code>family</code></td>
-    <td align="center"><code>String</code></td>
-    <td align="center"><code>-</code></td>
-    <td>
-      <pre>
-...
-font:
-  family: Serif
-...</pre>
-      <img src="assets/images/font-family.png" alt="font-family"/>
-    </td>
-  </tr>
-  <tr>
-    <td align="center"><code>size</code></td>
-    <td align="center"><code>Integer</code></td>
-    <td align="center"><code>0...999</code></td>
-    <td>
-      <pre>
-...
-font:
-  size: 8
-...</pre>
-      <img src="assets/images/font-size.png" alt="font-size"/>
     </td>
   </tr>
 </tbody>
@@ -453,6 +454,32 @@ title:
       #ffffff 100%)'
 ...</pre>
       <img src="assets/images/title-color-linear-gradient.png" alt="title-color-linear-gradient"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><code>fontFamily</code></td>
+    <td align="center"><code>String</code></td>
+    <td align="center"><code>-</code></td>
+    <td>
+      <pre>
+...
+title:
+  fontFamily: Serif
+...</pre>
+      <img src="assets/images/title-font-family.png" alt="title-font-family"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><code>fontSize</code></td>
+    <td align="center"><code>Integer</code></td>
+    <td align="center"><code>0...999</code></td>
+    <td>
+      <pre>
+...
+title:
+  fontSize: 8
+...</pre>
+      <img src="assets/images/title-font-size.png" alt="title-font-size"/>
     </td>
   </tr>
   <tr>
@@ -552,10 +579,13 @@ volume: 0.3</pre>
 2. Переключение трека.
 3. Индикатор проигрывания. При нажатии изменяет текущее время проигрывания.
 4. Добавить/Убрать трек в/из "Мне нравится".
-5. Управление громкостью. При нажатии включает/отключает звук. При прокручивании колеса мыши - изменение уровня громкости.
+5. Управление громкостью. При нажатии включает/отключает звук. При прокручивании колеса мыши - изменение уровня
+   громкости.
 
 ## Контекстное меню
-Вызов контекстного меню осуществляется по нажатию правой кнопкой мыши в крайней правой/левой области плеера, включая область с элементами управления.
+
+Вызов контекстного меню осуществляется по нажатию правой кнопкой мыши в крайней правой/левой области плеера, включая
+область с элементами управления.
 
 ![context-menu](assets/gifs/context-menu.gif)
 

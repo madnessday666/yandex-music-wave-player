@@ -179,7 +179,6 @@ public class WavePlayerWindow {
         currentDurationLabel.setText("0:00");
         currentDurationLabel.setVisible(false);
         currentDurationLabel.setStyle("""
-                -fx-padding: 0 0 0 5;
                 -fx-min-width: %d;
                 -fx-max-width:  %d;
                 -fx-pref-width: %d;
@@ -188,7 +187,9 @@ public class WavePlayerWindow {
                 -fx-pref-height: %d;
                 -fx-text-fill: %s;
                 -fx-opacity: %f;
-                -fx-font-size: 11;
+                -fx-font-family: %s;
+                -fx-font-size: %d;
+                -fx-padding: 0 0 0 %d;
                 -fx-alignment: center-left;
                             """
                 .formatted(
@@ -199,7 +200,10 @@ public class WavePlayerWindow {
                         MODULES_HEIGHT,
                         MODULES_HEIGHT,
                         ClientConfiguration.config.getDuration().getColor(),
-                        ClientConfiguration.config.getDuration().getOpacity()
+                        ClientConfiguration.config.getDuration().getOpacity(),
+                        ClientConfiguration.config.getDuration().getFontFamily(),
+                        ClientConfiguration.config.getDuration().getFontSize(),
+                        ClientConfiguration.config.getDuration().getPaddingLeft()
                 ));
         return currentDurationLabel;
     }
@@ -445,7 +449,6 @@ public class WavePlayerWindow {
         totalDurationLabel.setText("0:00");
         totalDurationLabel.setVisible(false);
         totalDurationLabel.setStyle("""
-                -fx-padding: 0 5 0 0;
                 -fx-min-width: %d;
                 -fx-max-width:  %d;
                 -fx-pref-width: %d;
@@ -454,7 +457,9 @@ public class WavePlayerWindow {
                 -fx-pref-height: %d;
                 -fx-text-fill: %s;
                 -fx-opacity: %f;
-                -fx-font-size: 11;
+                -fx-font-family: %s;
+                -fx-font-size: %d;
+                -fx-padding: 0 %d 0 0;
                 -fx-alignment: center-right;
                             """
                 .formatted(
@@ -465,7 +470,10 @@ public class WavePlayerWindow {
                         MODULES_HEIGHT,
                         MODULES_HEIGHT,
                         ClientConfiguration.config.getDuration().getColor(),
-                        ClientConfiguration.config.getDuration().getOpacity()
+                        ClientConfiguration.config.getDuration().getOpacity(),
+                        ClientConfiguration.config.getDuration().getFontFamily(),
+                        ClientConfiguration.config.getDuration().getFontSize(),
+                        ClientConfiguration.config.getDuration().getPaddingRight()
                 ));
         totalDurationLabel.setOnMouseClicked(mouseEvent -> {
             if (!mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
@@ -503,8 +511,8 @@ public class WavePlayerWindow {
                         MODULES_HEIGHT,
                         ClientConfiguration.config.getTitle().getColor(),
                         ClientConfiguration.config.getTitle().getOpacity(),
-                        ClientConfiguration.config.getFont().getFamily(),
-                        ClientConfiguration.config.getFont().getSize()
+                        ClientConfiguration.config.getTitle().getFontFamily(),
+                        ClientConfiguration.config.getTitle().getFontSize()
                 ));
         trackTitleLabel.setOnMouseEntered(mouseEntered -> {
             trackTitleLabel.setVisible(false);
@@ -524,7 +532,6 @@ public class WavePlayerWindow {
                 trackTitleLabel.setVisible(true);
             });
         });
-
         return trackTitleLabel;
     }
 
